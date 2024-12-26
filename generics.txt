@@ -1,0 +1,138 @@
+import java.util.ArrayList;
+import java.util.List;
+
+// Generic Class
+class Box<T> {
+    private T item;
+
+    public void setItem(T item) {
+        this.item = item;
+    }
+
+    public T getItem() {
+        return item;
+    }
+}
+
+// Generic Interface
+interface GenericInterface<T> {
+    void display(T value);
+}
+
+class GenericInterfaceImpl<T> implements GenericInterface<T> {
+    @Override
+    public void display(T value) {
+        System.out.println("Generic Interface Value: " + value);
+    }
+}
+
+// Generic Class with Bounded Type
+class Calculator<T extends Number> {
+    private T num1, num2;
+
+    public Calculator(T num1, T num2) {
+        this.num1 = num1;
+        this.num2 = num2;
+    }
+
+    public double add() {
+        return num1.doubleValue() + num2.doubleValue();
+    }
+
+    public double subtract() {
+        return num1.doubleValue() - num2.doubleValue();
+    }
+}
+
+// Generic Stack Implementation
+class Stack<T> {
+    private List<T> elements = new ArrayList<>();
+
+    public void push(T element) {
+        elements.add(element);
+    }
+
+    public T pop() {
+        if (elements.isEmpty()) {
+            throw new IllegalStateException("Stack is empty");
+        }
+        return elements.remove(elements.size() - 1);
+    }
+
+    public boolean isEmpty() {
+        return elements.isEmpty();
+    }
+}
+
+public class GenericsDemo {
+    public static void main(String[] args) {
+        System.out.println("=== Generics in Java ===");
+
+        // 1. Generic Class
+        Box<String> stringBox = new Box<>();
+        stringBox.setItem("Hello Generics");
+        System.out.println("Box Item: " + stringBox.getItem());
+
+        Box<Integer> intBox = new Box<>();
+        intBox.setItem(123);
+        System.out.println("Box Item: " + intBox.getItem());
+
+        // 2. Generic Interface
+        GenericInterface<String> stringImpl = new GenericInterfaceImpl<>();
+        stringImpl.display("Generic Interface Example");
+
+        // 3. Bounded Type
+        Calculator<Integer> intCalc = new Calculator<>(10, 20);
+        System.out.println("Integer Addition: " + intCalc.add());
+        System.out.println("Integer Subtraction: " + intCalc.subtract());
+
+        Calculator<Double> doubleCalc = new Calculator<>(10.5, 20.3);
+        System.out.println("Double Addition: " + doubleCalc.add());
+        System.out.println("Double Subtraction: " + doubleCalc.subtract());
+
+        // 4. Wildcards
+        List<String> stringList = new ArrayList<>();
+        stringList.add("Apple");
+        stringList.add("Banana");
+        printList(stringList);
+
+        List<Integer> intList = new ArrayList<>();
+        intList.add(1);
+        intList.add(2);
+        printList(intList);
+
+        // 5. Generic Method
+        String[] stringArray = {"One", "Two", "Three"};
+        Integer[] intArray = {1, 2, 3};
+        System.out.println("Generic Method - String Array:");
+        printArray(stringArray);
+        System.out.println("Generic Method - Integer Array:");
+        printArray(intArray);
+
+        // 6. Generic Stack
+        Stack<String> stringStack = new Stack<>();
+        stringStack.push("Java");
+        stringStack.push("Generics");
+        System.out.println("Popped from Stack: " + stringStack.pop());
+
+        Stack<Integer> intStack = new Stack<>();
+        intStack.push(100);
+        intStack.push(200);
+        System.out.println("Popped from Stack: " + intStack.pop());
+    }
+
+    // Generic Method to print array
+    public static <T> void printArray(T[] array) {
+        for (T element : array) {
+            System.out.println(element);
+        }
+    }
+
+    // Wildcard Example
+    public static void printList(List<?> list) {
+        System.out.println("Printing List:");
+        for (Object item : list) {
+            System.out.println(item);
+        }
+    }
+}
