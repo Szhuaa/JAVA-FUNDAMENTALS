@@ -1,0 +1,56 @@
+
+class Calculator {
+    public static int add(int a, int b) {
+        return a + b;
+    }
+
+    public static int multiply(int a, int b) {
+        return a * b;
+    }
+}
+
+// Model Class
+class Person {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{name='" + name + "', age=" + age + "}";
+    }
+}
+
+// Main Application Class
+public class MainApp {
+    public static void main(String[] args) {
+        System.out.println("=== Java Packages Merged Example ===");
+
+        // Using the Calculator class
+        int sum = Calculator.add(10, 20);
+        int product = Calculator.multiply(10, 20);
+
+        System.out.println("Sum: " + sum);
+        System.out.println("Product: " + product);
+
+        // Using the Person class
+        Person person = new Person("Alice", 30);
+        System.out.println("Person: " + person);
+
+        // Combining utilities and models
+        int personAgeInMonths = Calculator.multiply(person.getAge(), 12);
+        System.out.println(person.getName() + " is " + personAgeInMonths + " months old.");
+    }
+}

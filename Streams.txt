@@ -1,0 +1,126 @@
+import java.util.*;
+import java.util.stream.*;
+import java.util.function.Function;
+
+public class StreamsExample {
+    public static void main(String[] args) {
+        System.out.println("=== Streams API in Java ===");
+
+        // 1. Basic Stream Creation
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        System.out.println("Original List: " + numbers);
+
+        // 2. Filtering and Mapping
+        List<Integer> evenNumbers = numbers.stream()
+                .filter(n -> n % 2 == 0)  // Intermediate operation: filter
+                .map(n -> n * 2)         // Intermediate operation: map
+                .collect(Collectors.toList()); // Terminal operation: collect
+        System.out.println("Even Numbers Doubled: " + evenNumbers);
+
+        // 3. Sorting
+        List<String> names = Arrays.asList("Alice", "Bob", "Charlie", "David", "Eve");
+        List<String> sortedNames = names.stream()
+                .sorted()               // Intermediate operation: sorted
+                .collect(Collectors.toList());
+        System.out.println("Sorted Names: " + sortedNames);
+
+        // 4. Collectors Grouping
+        List<String> animals = Arrays.asList("Cat", "Dog", "Elephant", "Ant", "Lion", "Leopard");
+        Map<Character, List<String>> groupedByFirstLetter = animals.stream()
+                .collect(Collectors.groupingBy(s -> s.charAt(0)));
+        System.out.println("Animals Grouped by First Letter: " + groupedByFirstLetter);
+
+        // 5. Reduction
+        int sum = numbers.stream()
+                .reduce(0, Integer::sum); // Terminal operation: reduce
+        System.out.println("Sum of Numbers: " + sum);
+
+        // 6. Counting
+        long count = names.stream()
+                .filter(name -> name.startsWith("A")) // Intermediate operation: filter
+                .count();                            // Terminal operation: count
+        System.out.println("Count of Names Starting with 'A': " + count);
+
+        // 7. FlatMap
+        List<List<String>> nestedLists = Arrays.asList(
+                Arrays.asList("A", "B", "C"),
+                Arrays.asList("D", "E", "F"),
+                Arrays.asList("G", "H")
+        );
+        List<String> flattenedList = nestedLists.stream()
+                .flatMap(List::stream)  // Intermediate operation: flatMap
+                .collect(Collectors.toList());
+        System.out.println("Flattened List: " + flattenedList);
+
+        // 8. Parallel Streams
+        List<Integer> parallelProcessed = numbers.parallelStream()
+                .map(n -> n * 2)  // Intermediate operation: map
+                .collect(Collectors.toList());
+        System.out.println("Processed in Parallel: " + parallelProcessed);
+
+        // 9. Optional with Streams
+        Optional<Integer> maxNumber = numbers.stream()
+                .max(Integer::compareTo); // Terminal operation: max
+        maxNumber.ifPresent(max -> System.out.println("Maximum Number: " + max));
+
+        // 10. Custom Collector
+        String joinedNames = names.stream()
+                .collect(Collectors.joining(", ", "[", "]")); // Terminal operation: joining
+        System.out.println("Joined Names: " + joinedNames);
+
+        // 11. Stream of Custom Objects
+        List<Employee> employees = Arrays.asList(
+                new Employee(1, "John", 3000),
+                new Employee(2, "Jane", 4000),
+                new Employee(3, "Jake", 5000),
+                new Employee(4, "Jill", 6000)
+        );
+
+        // Filter employees with salary > 4000
+        List<Employee> highEarners = employees.stream()
+                .filter(e -> e.getSalary() > 4000) // Intermediate operation: filter
+                .collect(Collectors.toList());
+        System.out.println("High Earning Employees: " + highEarners);
+
+        // 12. Mapping with Custom Objects
+        Map<Integer, String> employeeMap = employees.stream()
+                .collect(Collectors.toMap(Employee::getId, Employee::getName));
+        System.out.println("Employee Map: " + employeeMap);
+
+        // 13. Generating Infinite Streams
+        List<Integer> firstFive = Stream.iterate(1, n -> n + 1)
+                .limit(5) // Limit the infinite stream
+                .collect(Collectors.toList());
+        System.out.println("First Five Natural Numbers: " + firstFive);
+    }
+}
+
+// Employee Class for Custom Object Streams
+class Employee {
+    private int id;
+    private String name;
+    private double salary;
+
+    public Employee(int id, String name, double salary) {
+        this.id = id;
+        this.name = name;
+        this.salary = salary;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Employee{id=%d, name='%s', salary=%.2f}", id, name, salary);
+    }
+}

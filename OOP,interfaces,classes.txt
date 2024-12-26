@@ -1,0 +1,144 @@
+// Abstract Class (Demonstrating Abstraction)
+abstract class Animal {
+    private String name;
+
+    public Animal(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    // Abstract method
+    public abstract void makeSound();
+
+    // Concrete method
+    public void eat() {
+        System.out.println(name + " is eating.");
+    }
+}
+
+// Interface (Demonstrating Multiple Inheritance)
+interface Pet {
+    void play();
+}
+
+interface Swimmable {
+    void swim();
+}
+
+// Concrete Class (Inheritance and Polymorphism)
+class Dog extends Animal implements Pet {
+    public Dog(String name) {
+        super(name);
+    }
+
+    @Override
+    public void makeSound() {
+        System.out.println(getName() + " says: Woof!");
+    }
+
+    @Override
+    public void play() {
+        System.out.println(getName() + " is playing fetch.");
+    }
+}
+
+// Another Concrete Class (Inheritance and Polymorphism)
+class Cat extends Animal implements Pet {
+    public Cat(String name) {
+        super(name);
+    }
+
+    @Override
+    public void makeSound() {
+        System.out.println(getName() + " says: Meow!");
+    }
+
+    @Override
+    public void play() {
+        System.out.println(getName() + " is chasing a laser pointer.");
+    }
+}
+
+// Another Class implementing Multiple Interfaces
+class Fish implements Pet, Swimmable {
+    private String name;
+
+    public Fish(String name) {
+        this.name = name;
+    }
+
+    public void play() {
+        System.out.println(name + " is swimming around playfully.");
+    }
+
+    public void swim() {
+        System.out.println(name + " is swimming in the water.");
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
+// Demonstrating Encapsulation
+class Owner {
+    private String name;
+    private Pet pet;
+
+    public Owner(String name, Pet pet) {
+        this.name = name;
+        this.pet = pet;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Pet getPet() {
+        return pet;
+    }
+
+    public void interactWithPet() {
+        System.out.println(name + " is interacting with their pet.");
+        pet.play();
+    }
+}
+
+// Main Class (Demonstrating All Concepts Together)
+public class OOPDemo {
+    public static void main(String[] args) {
+        System.out.println("=== OOP, Interfaces, and Classes Example ===");
+
+        // Demonstrating Inheritance and Polymorphism
+        Animal dog = new Dog("Buddy");
+        Animal cat = new Cat("Whiskers");
+
+        dog.makeSound();
+        dog.eat();
+
+        cat.makeSound();
+        cat.eat();
+
+        // Demonstrating Interfaces
+        Pet petFish = new Fish("Goldie");
+        petFish.play();
+
+        Swimmable swimmingFish = (Swimmable) petFish;
+        swimmingFish.swim();
+
+        // Demonstrating Encapsulation
+        Owner owner = new Owner("Alice", new Dog("Rex"));
+        System.out.println(owner.getName() + " owns a pet named " + ((Dog) owner.getPet()).getName() + ".");
+        owner.interactWithPet();
+
+        // Polymorphism with a List of Animals
+        List<Animal> animals = List.of(new Dog("Max"), new Cat("Luna"));
+        System.out.println("\nAll animals making sounds:");
+        for (Animal animal : animals) {
+            animal.makeSound();
+        }
+    }
+}
